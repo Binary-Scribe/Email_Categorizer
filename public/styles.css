@@ -1,0 +1,155 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #f5f5f5;
+    background-color: #1e1e1e;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: #2e2e2e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #ffffff;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #444444;
+    border-radius: 4px;
+    background: #333333;
+    color: #ffffff;
+}
+
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #ffffff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#categorized-emails {
+    margin-top: 20px;
+}
+
+.categorized-item {
+    background: #444444;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.categorized-item h3 {
+    margin: 0 0 10px 0;
+    color: #ffffff;
+}
+
+.categorized-item p {
+    margin: 0;
+    color: #b5b5b5;
+}
+
+.copy-icon {
+    cursor: pointer;
+    color: #007BFF;
+    margin-left: 10px;
+    transition: color 0.3s;
+}
+
+.copy-icon:hover {
+    color: #0056b3;
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #333333;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-nav button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: none;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.bottom-nav button:hover {
+    background: #444444;
+}
+
+/* Add this to your existing styles.css */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    margin: 15% auto; 
+    padding: 20px;
+    width: 80%; 
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #f0f0f0; /* Adjust the color to match your design */
+    color: #000; /* Adjust the text color */
+    /* Add any additional styling for the selected button */
+}

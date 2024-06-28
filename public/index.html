@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Categorizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Email Categorizer</h1>
+
+        <div class="form-group" id="cat-section-email">
+            <label for="email-select">Email:</label>
+            <select id="email-select">
+                <option value="" disabled selected>Select an email</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="cat-section-lesson">
+            <label for="lesson-select">Lesson:</label>
+            <select id="lesson-select">
+                <option value="" disabled selected>Select a lesson</option>
+            </select>
+        </div>
+
+        <button id="add-email-lesson" class="cat-button">Add Email and Lesson</button>
+
+        <div id="add-section">
+            <h2>Add New Email</h2>
+            <div class="form-group">
+                <input type="text" id="new-email" placeholder="Enter new email">
+                <button id="add-new-email">Add New Email</button>
+            </div>
+
+            <h2>Add New Lesson</h2>
+            <div class="form-group">
+                <input type="text" id="new-lesson" placeholder="Enter new lesson">
+                <button id="add-new-lesson">Add New Lesson</button>
+            </div>
+        </div>
+
+        <h2 id="show-section-title">Categorized Emails</h2>
+        <div id="categorized-emails"></div>
+    </div>
+
+    <div id="edit-section" style="display: none;"></div>
+
+    <h4 style="text-align: center;">Design And Developed By Theekshana (Binary-Scribe) <a href="https://github.com/Binary-Scribe" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a></h4>
+
+    <div class="bottom-nav">
+        <button id="cat-btn">CAT</button>
+        <button id="add-btn">ADD</button>
+        <button id="show-btn">SHOW</button>
+        <button id="edit-btn">EDIT</button>
+    </div>
+
+    <!-- Modal for editing -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Item</h2>
+            <input type="text" id="edit-input" placeholder="Enter new value">
+            <button id="save-edit">Save</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/js/all.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const catButton = document.getElementById('cat-btn');
+            catButton.classList.add('selected');
+            const emailSelect = document.getElementById('email-select');
+            const lessonSelect = document.getElementById('lesson-select');
+            const categorizedEmailsDiv = document.getElementById('categorized-emails');
+
+            const loadOptions = async () => {
+                const emails = await window.electron.getEmails();
+                const lessons = await window.electron.getLessons();
+                
+                emailSelect.innerHTML = '<option value="" disabled selected>Select an email</option>';
+                lessonSelect.innerHTML = '<option value="" disabled selected>Select a lesson</option>';
+                
+                emails.forEach(email => {
+                    const option = document.createElement('option');
+                    option.value = email;
+                    option.textContent = email;
+                    emailSelect.appendChild(option);
+                });
+                
+                lessons.forEach(lesson => {
+                    const option = document.createElement('option');
+                    option.value = lesson;
+                    option.textContent = lesson;
+                    lessonSelect.appendChild(option);
+                });
+            };
+
+            const loadCategorizedEmails = async () => {
+                const categorizedEmails = await window.electron.getCategorizedEmails();
+                categorizedEmailsDiv.innerHTML = '';
+                categorizedEmails.forEach(item => {
+                    const div = document.createElement('div');
+                    div.textContent = `${item.email} - ${item.lesson}`;
+                    categorizedEmailsDiv.appendChild(div);
+                });
+            };
+
+            document.getElementById('add-new-email').addEventListener('click', () => {
+                const newEmail = document.getElementById('new-email').value;
+                if (newEmail) {
+                    window.electron.addNewEmail(newEmail);
+                    document.getElementById('new-email').value = '';
+                }
+            });
+
+            document.getElementById('add-new-lesson').addEventListener('click', () => {
+                const newLesson = document.getElementById('new-lesson').value;
+                if (newLesson) {
+                    window.electron.addNewLesson(newLesson);
+                    document.getElementById('new-lesson').value = '';
+                }
+            });
+
+            document.getElementById('add-email-lesson').addEventListener('click', () => {
+                const email = emailSelect.value;
+                const lesson = lessonSelect.value;
+                if (email && lesson) {
+                    window.electron.addEmailLesson(email, lesson);
+                }
+            });
+
+            window.electron.performAction('example')
+                .then(response => console.log(response))
+                .catch(error => console.error(error));
+
+            window.electron.onUpdateAvailable(() => {
+                alert('Update available. Please download the latest version.');
+            });
+
+            window.electron.onUpdateDownloaded(() => {
+                alert('Update downloaded. The application will restart to apply the update.');
+            });
+
+            // Update email and lesson lists when updated
+            window.electron.getEmails().then(loadOptions);
+            window.electron.getLessons().then(loadOptions);
+            window.electron.getCategorizedEmails().then(loadCategorizedEmails);
+        });
+    </script>
+</body>
+</html>
